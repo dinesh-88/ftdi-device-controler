@@ -31,6 +31,9 @@ function connectDevice(req, next) {
         }
         socket.EmitUpdateAllUsers({data:data})
     });
+    this.port.parser.on('data', function (data) {
+        console.log('Data:', data,data.toString('utf8'));
+    });
 }
 
 module.exports = {
