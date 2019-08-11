@@ -14,13 +14,14 @@ var parser = new parsers.Readline({
     delimiter: '\r\n'
 });
 var usb = require('./devices/usb');
+var path  = require('path');
 app.set('port', 3000);
 app.set('ip', '0.0.0.0');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -29,12 +30,12 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
-app.get('/listUsb', function (req, res) {
+app.get('/api/listUsb', function (req, res) {
     usb.getUsbList(function (err, data) {
         res.status(200).send(data);
     });
 });
-app.post('/connect', function (req, res) {
+app.post('/api/connect', function (req, res) {
     res.send(usb.connectDevice(req, function (err, data) {
         if (err) {
             res.status(500).send(err);
@@ -42,6 +43,9 @@ app.post('/connect', function (req, res) {
             res.status(200).send({"Ok": 1})
         }
     }));
+});
+app.get('*', (req, res) => {
+    res.redirect("/");
 });
 server.listen(app.get('port'), function () {
     console.log('*** server started ***: ');

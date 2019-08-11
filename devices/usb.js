@@ -26,7 +26,10 @@ function connectDevice(req, next) {
         port.read();
     });
     port.on('data', function (data) {
-        socket.EmitUpdateAllUsers({test:"tes"})
+        for (const value of data.values()) {
+            console.log(value);
+        }
+        socket.EmitUpdateAllUsers({data:data})
     });
 }
 
