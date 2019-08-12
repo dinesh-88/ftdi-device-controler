@@ -2,6 +2,7 @@ var socket = require("../socket/socket-handle");
 
 var SerialPort = require('serialport');
 const delimiter = require('@serialport/parser-delimiter')
+const Readline = require('@serialport/parser-readline')
 function getUsbList(next) {
     let arr = [];
     SerialPort.list(function (err, ports) {
@@ -17,13 +18,8 @@ function getUsbList(next) {
 
 function connectDevice(req, next) {
     const port = new SerialPort(req.body.comName, {autoOpen: false});
-    const parser = port.pipe(new delimiter({ delimiter: '\n'}));
-
-
-
-    parser.on('data', (data) => {
-       console.log('dataReady', data);
-    });
+    const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+    parser.on('data', console.log);
     port.open(function (err) {
         if (err) {
             return console.log('Error opening port: ', err.message)
