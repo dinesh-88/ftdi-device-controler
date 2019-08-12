@@ -1,7 +1,7 @@
 var socket = require("../socket/socket-handle");
 
 var SerialPort = require('serialport');
-
+const delimiter = require('@serialport/parser-delimiter')
 function getUsbList(next) {
     let arr = [];
     SerialPort.list(function (err, ports) {
