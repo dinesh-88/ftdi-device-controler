@@ -29,8 +29,10 @@ function connectDevice(req, next) {
         for (const value of data.values()) {
             console.log(value);
         }
-        readData(data);
-        socket.EmitUpdateAllUsers({data:  data.toString('ascii')})
+        readData(data,function (p) {
+            socket.EmitUpdateAllUsers({data:  p})
+        });
+
     });
     this.port.parser.on('data', function (data) {
         console.log('Data:', data, data.toString('utf8'));
@@ -38,7 +40,7 @@ function connectDevice(req, next) {
 }
 const spawn = require('child_process').spawn;
 const PassThrough = require('stream').PassThrough;
-function readData(buffer) {
+function readData(buffer,next) {
     console.log(buffer.toString('ascii'))
     // console.log(buffer.toString('ascii'))
 
@@ -56,28 +58,8 @@ function readData(buffer) {
     });
     b.on('end', function () {
         console.log(count);
-        c.pipe(process.stdout);
+        next(c.pipe(process.stdout));
     });
-    const len = -1;
-    let packetCount = 0;
-    let sampleRate = 0;
-    let rawBuffer = [[]];
-    // if (len > 0) {
-    //     for (let i = 0; i < len; i++) {
-    //         if ((buffer[i]) === 90 && i + 15 <= len) {
-    //
-    //             if ((buffer[i + 15]) >= 0 && ((buffer[i + 15]) <= 15)) {
-    //                 packetCount++;
-    //                 if (packetCount >= sampleRate) {
-    //                     packetCount = 0;
-    //                     console.log("Rate : " + sampleRate);
-    //                     console.log("Time : "+ process.hrtime()[1]);
-    //                 }
-    //             }
-    //
-    //         }
-    //     }
-    // }
 }
 
 module.exports = {
