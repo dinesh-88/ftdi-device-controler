@@ -30,7 +30,7 @@ function connectDevice(req, next) {
             console.log(value);
         }
         readData(data);
-        socket.EmitUpdateAllUsers({data:  buffer.toString('ascii')})
+        socket.EmitUpdateAllUsers({data:  data.toString('ascii')})
     });
     this.port.parser.on('data', function (data) {
         console.log('Data:', data, data.toString('utf8'));
