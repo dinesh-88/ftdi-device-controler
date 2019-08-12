@@ -36,10 +36,28 @@ function connectDevice(req, next) {
         console.log('Data:', data, data.toString('utf8'));
     });
 }
-
+const spawn = require('child_process').spawn;
+const PassThrough = require('stream').PassThrough;
 function readData(buffer) {
     console.log(buffer.toString('ascii'))
     // console.log(buffer.toString('ascii'))
+
+
+    const a = spawn('echo', buffer.toJSON().data);
+    const b = new PassThrough();
+    const c = new PassThrough();
+
+    a.stdout.pipe(b);
+    a.stdout.pipe(c);
+
+    let count = 0;
+    b.on('data', function (chunk) {
+        count += chunk.length;
+    });
+    b.on('end', function () {
+        console.log(count);
+        c.pipe(process.stdout);
+    });
     const len = -1;
     let packetCount = 0;
     let sampleRate = 0;
