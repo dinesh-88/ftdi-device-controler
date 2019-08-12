@@ -38,12 +38,11 @@ function connectDevice(req, next) {
         console.log('Data:', data, data.toString('utf8'));
     });
 }
-const spawn = require('child_process').spawn;
-const PassThrough = require('stream').PassThrough;
+;
 function readData(buffer,next) {
-    console.log(buffer.toString('ascii'))
+    console.log(buffer.length)
     // console.log(buffer.toString('ascii'))
-    var value = buffer.toString('utf8');
+    var value = buffer.toString('utf8',0,buffer.length);
     console.log(value)
     var values = value.split("\u0016\n").filter(item => item);
     console.log(values)
