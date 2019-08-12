@@ -43,23 +43,26 @@ const PassThrough = require('stream').PassThrough;
 function readData(buffer,next) {
     console.log(buffer.toString('ascii'))
     // console.log(buffer.toString('ascii'))
-
-
-    const a = spawn('echo', buffer.toJSON().data);
-    const b = new PassThrough();
-    const c = new PassThrough();
-
-    a.stdout.pipe(b);
-    a.stdout.pipe(c);
-
-    let count = 0;
-    b.on('data', function (chunk) {
-        count += chunk.length;
-    });
-    b.on('end', function () {
-        console.log(count);
-        next(c.pipe(process.stdout));
-    });
+    var value = buffer.toString('utf8');
+    var values = value.split("\u0016\n").filter(item => item);
+    console.log(values)
+    //
+    // const a = spawn('echo', buffer.toJSON().data);
+    // const b = new PassThrough();
+    // const c = new PassThrough();
+    //
+    // a.stdout.pipe(b);
+    // a.stdout.pipe(c);
+    //
+    // let count = 0;
+    // b.on('data', function (chunk) {
+    //     count += chunk.length;
+    //
+    // });
+    // b.on('end', function () {
+    //     console.log(count);
+    //     next(c.pipe(process.stdout));
+    // });
 }
 
 module.exports = {
