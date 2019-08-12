@@ -24,14 +24,14 @@ function connectDevice(req, next) {
     parser.on('data', (data) => {
        console.log('dataReady', data);
     });
-//     port.open(function (err) {
-//         if (err) {
-//             return console.log('Error opening port: ', err.message)
-//         }
-//     });
-//     port.on('readable', function () {
-//         port.read();
-//     });
+    port.open(function (err) {
+        if (err) {
+            return console.log('Error opening port: ', err.message)
+        }
+    });
+    port.on('readable', function () {
+        port.read();
+    });
 //     port.on('data', function (data) {
 //         // for (const value of data.values()) {
 //         //     console.log(value);
