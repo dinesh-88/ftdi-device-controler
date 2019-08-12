@@ -26,9 +26,9 @@ function connectDevice(req, next) {
         port.read();
     });
     port.on('data', function (data) {
-        for (const value of data.values()) {
-            console.log(value);
-        }
+        // for (const value of data.values()) {
+        //     console.log(value);
+        // }
         readData(data,function (p) {
             socket.EmitUpdateAllUsers({data:  p})
         });
@@ -40,13 +40,8 @@ function connectDevice(req, next) {
 }
 ;
 function readData(buffer,next) {
-    console.log(buffer.length)
-    // console.log(buffer.toString('ascii'))
-    var value = buffer.toString('utf8',0,buffer.length);
-    console.log(value)
-    var values = value.split("\u0016\n").filter(item => item);
-    console.log(values)
-    next(values);
+    console.log('Output: ', buffer.length);
+    console.log( buffer );
     //
     // const a = spawn('echo', buffer.toJSON().data);
     // const b = new PassThrough();
