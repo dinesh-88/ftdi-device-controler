@@ -44,8 +44,10 @@ function readData(buffer,next) {
     console.log(buffer.toString('ascii'))
     // console.log(buffer.toString('ascii'))
     var value = buffer.toString('utf8');
+    console.log(value)
     var values = value.split("\u0016\n").filter(item => item);
     console.log(values)
+    return values;
     //
     // const a = spawn('echo', buffer.toJSON().data);
     // const b = new PassThrough();
