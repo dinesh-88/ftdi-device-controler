@@ -28,15 +28,20 @@ function connectDevice(req, next) {
     port.on('readable', function () {
         port.read();
     });
-//     port.on('data', function (data) {
-//         // for (const value of data.values()) {
-//         //     console.log(value);
-//         // }
-//         readData(data,function (p) {
-//             socket.EmitUpdateAllUsers({data:  p})
-//         });
-//
-//     });
+    port.on('data', function (data) {
+        // for (const value of data.values()) {
+        //     console.log(value);
+        // }
+        readData(data,function (p) {
+            socket.EmitUpdateAllUsers({data:  p})
+        });
+
+    });
+    port.on('error', function (err) {
+        console.error('Hmm..., error!');
+        console.error(err);
+        process.exit(1);
+    });
 //     this.port.parser.on('data', function (data) {
 //         console.log('Data:', data, data.toString('utf8'));
 //     });
