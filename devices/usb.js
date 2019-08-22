@@ -49,7 +49,7 @@ function connectDevice(req, next) {
 ;
 function readData(buffer,next) {
     console.log('Output: ', buffer.length);
-    console.log( buffer );
+    console.log( buffer.toJSON() );
     //
     // const a = spawn('echo', buffer.toJSON().data);
     // const b = new PassThrough();
